@@ -32,8 +32,9 @@ jobs:
         run: npm start
       - name: Commit
         run: |
-          git config --local user.name ${{ secrets.USERNAME }}
-          git config --local user.email ${{ secrets.EMAIL }}
+          git --version
+          git config --local user.name "${{ secrets.USERNAME }}"
+          git config --local user.email "${{ secrets.EMAIL }}"
           git commit -m 'Update data' -a
       - name: Push
         uses: ad-m/github-push-action@master
