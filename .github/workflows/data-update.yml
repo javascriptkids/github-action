@@ -16,4 +16,27 @@ jobs:
         with:
           node-version: 14
       - name: Unit Test
-        run: npm test
+        run: |
+          npm i
+          npm test
+
+  commit:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Update data
+        run: npm start
+      - name: Commit
+        run: |
+          git config --local user.name ${{ secrets.USERNAME }}
+          git config --local user.email ${{ secrets.EMAIL }}
+          git commit -m 'Update data' -a
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          branch: ${{ github.ref }}
