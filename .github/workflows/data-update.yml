@@ -30,8 +30,8 @@ jobs:
         run: npm start
       - name: Commit files
         run: |
-          git config --local user.email "${{ secrets.GITHUB_EMAIL }}"
-          git config --local user.name "${{ secrets.GITHUB_USERNAME }}"
+          git config --local user.email "${{ secrets.EMAIL }}"
+          git config --local user.name "${{ secrets.USERNAME }}"
           git commit -m "Update repetition data" -a
 
   push:
@@ -44,5 +44,5 @@ jobs:
           node-version: 14
       - uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TOKEN }}
           branch: ${{ github.ref }}
