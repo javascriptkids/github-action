@@ -35,6 +35,7 @@ jobs:
           USER_EMAIL: ${{ secrets.EMAIL }}
           USER_NAME: ${{ secrets.USERNAME }}
         run: |
+          echo Hello "$USER_NAME"
           git --version
           git config --local user.name "$USER_NAME"
           git config --local user.email "$USER_EMAIL"
