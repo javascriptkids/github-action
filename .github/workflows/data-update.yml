@@ -1,0 +1,48 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
+
+name: Pushing new data
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Unit Test
+        run: npm test
+        
+  update-data-and-commit:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Update the data
+        run: npm start
+      - name: Commit files
+        run: |
+          git config --local user.email "${{ secrets.GITHUB_EMAIL }}"
+          git config --local user.name "${{ secrets.GITHUB_USERNAME }}"
+          git commit -m "Update repetition data" -a
+
+  push:
+    needs: update-data-and-commit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
