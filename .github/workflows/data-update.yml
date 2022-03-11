@@ -34,8 +34,9 @@ jobs:
         run: |
           echo Hello
           git --version
-          git config --local user.name "github bot"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "javascriptkids"
+          # 41898282+github-actions[bot]@users.noreply.github.com
+          git config --local user.email "rizkycode@protonmail.com"
           git commit -m 'Update data' -a
       - name: Push
         uses: ad-m/github-push-action@master
